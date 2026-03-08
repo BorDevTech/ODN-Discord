@@ -24,6 +24,7 @@ import Terms from "./(Pages)/terms/page";
 
 
 import { getLaunchParams } from "@/app/lib/(Discord)/launch";
+import PageTemplate from "@/components/ui/page-builder/page-template";
 export default function Home() {
 
   const current = useBreakpointValue({
@@ -117,107 +118,18 @@ export default function Home() {
   }
 
   const { open, onToggle } = useDisclosure()
-
+  const Home = new PageTemplate();
 
 
   return (
-    <>
-      <Suspense fallback={null}>
-        <FrameIdReader onValue={setFrameId} />
-      </Suspense>
-      <HStack bg="blue" h={'10vh'} px={4} alignItems={'center'} pt={4}>Hi</HStack>
 
-      <Center alignItems={'center'} justifyContent={'center'}>
-        <Card.Root minH={"100vh"}>
-          <Card.Body>
-            <Card.Title textAlign={'center'}>Welcome to ODN LFG</Card.Title>
-            <Center>
-              <VStack>
-                <Avatar.Root size={'2xl'}>
-                  <Avatar.Image src="https://images.unsplash.com/photo-1511806754518-53bada35f930" />
-                  <Avatar.Fallback name="MB_FRAG" />
-                </Avatar.Root>
-                <Stack gap="0">
-                  <Text fontWeight="bold" textStyle="lg" textAlign={'center'}>
-                    MB_FRAG
-                  </Text>
-                  <Text color="fg.muted" textStyle="md" textAlign={'center'}>
-                    @mb_frag
-                  </Text>
-                </Stack>
-              </VStack>
-            </Center>
-
-            <Button onClick={() => {
-              const systemParams = Object.fromEntries(
-                new URLSearchParams(window.location.search));
-              const allParams = { ...systemParams, ...deepLinkParams, };
-              const debugUrl = "https://example.com/debug?" + new URLSearchParams(allParams).toString();
-              console.log("DEBUG URL:", debugUrl);
-              window.location.href = debugUrl;
-            }} >
-              Debug Launch Params </Button>
-            {launch &&
-              (<Box mt={6} p={4} bg="gray.800" borderRadius="md">
-                <Text fontWeight="bold">Launch Params</Text>
-                <Text>Game: {launch.game}</Text>
-                <Text>LFG ID: {launch.lfgId}</Text>
-                <Text>Platform: {launch.platform}</Text>
-                <Text>Action: {launch.action}</Text>
-              </Box>
-              )}
-
-            <Card.Description textAlign={'center'} asChild>
-              <Stack gap="4">
-
-                <br /> Please read and accept our terms and conditions to use our platform.
+    <Container maxW={"container.xl"} >
+      Launch Params: {JSON.stringify(launch)}. Deep Link Params: {JSON.stringify(deepLinkParams)}
+      <Button onClick={handleEnter}>Enter</Button>
+      <Button onClick={fetchStats} loading={loading} ml={2}>Fetch R6 Stats</Button>
+    </Container>
 
 
-                <Button alignSelf='center' onClick={onToggle} bg={'transparent'} color={'white'}>
-                  Terms and Conditions
-                </Button>
-
-                <Presence
-                  present={open}
-                  animationName={{ _open: "fade-in", _closed: "fade-out" }}
-                  animationDuration="moderate"
-                >
-                  <Center p="10" layerStyle="fill.muted">
-
-                    <ScrollArea.Root height="15rem" maxW="xs">
-                      <ScrollArea.Viewport>
-                        <ScrollArea.Content spaceX="4" textAlign={'left'}>
-                          <Terms />
-                          <Privacy />
-                        </ScrollArea.Content>
-                      </ScrollArea.Viewport>
-                      <ScrollArea.Scrollbar>
-                        <ScrollArea.Thumb />
-                      </ScrollArea.Scrollbar>
-                      <ScrollArea.Corner />
-                    </ScrollArea.Root>
-                  </Center>
-                </Presence>
-              </Stack>
-              <br />he
-              <Text textAlign={'center'}>You can approve or decline below.</Text>
-
-            </Card.Description>
-          </Card.Body>
-          <Card.Footer>
-            <Button variant="subtle" colorPalette="red" flex="1">
-              <LuX />
-              Decline
-            </Button>
-            <Button variant="subtle" colorPalette="blue" flex="1">
-              <LuCheck />
-              Approve
-            </Button>
-          </Card.Footer>
-        </Card.Root>
-      </Center>
-
-    </>
   )
 }
 
