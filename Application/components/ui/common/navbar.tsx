@@ -1,6 +1,8 @@
 import { Avatar, Button, Container, Drawer, HStack, Menu, Portal, Text, Image, CloseButton, Link, VStack } from "@chakra-ui/react";
 
 export default function Navbar() {
+
+
     return (<>
         <Container maxW={"container.xl"} py={4}>
             <HStack justifyContent={"space-between"}>
